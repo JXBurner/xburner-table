@@ -62,5 +62,10 @@
       paginationLayout: 'total, sizes, prev, pager, next, jumper'
     }
   ```
+
 # 使用
 
+引用方式：
+import xBurnerTable from '@/components/xburner-table/index'
+
+```
