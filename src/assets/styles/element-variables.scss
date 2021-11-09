@@ -1,0 +1,43 @@
+// global
+$--color-primary:  #0584F9;
+$--color-success:  #74D83F;
+$--color-warning:  #F5A225;
+$--color-danger:  #F15B5B;
+$--color-info:  #999A9E;
+$--color-text-primary: #1B1C1F;
+$--color-text-regular: #606266;
+$--color-text-secondary: #999A9E;
+$--color-text-placeholder: #CACCD0;
+$--border-color-base: #DCDFE6;
+$--border-color-light: #E4E7ED;
+$--border-color-lighter: #EBEEF5;
+$--border-color-extra-light: #F2F6FC;
+
+// local
+$--tag-font-size: 12px;
+$--badge-padding: 6px;
+$--button-medium-font-size: 14px;
+$--button-padding-vertical: 12px;
+$--button-padding-horizontal: 20px;
+$--button-medium-padding-horizontal: 18px;
+$--button-small-padding-horizontal: 18px;
+$--button-mini-padding-horizontal: 16px;
+$--collapse-content-font-color: #606266;
+$--collapse-content-font-size: 12px;
+// $--dialog-title-font-size: $--font-size-large;
+$--input-height: 40px;
+$--input-width: 168px;
+$--pagination-font-size: 12px;
+$--select-option-height: 32px;
+
+$--table-header-background-color: #F4F7F9;
+$--table-row-hover-background-color: #F2F8FD;
+$--table-header-font-color: #999A9E;
+$--switch-on-color: #0584F9;
+$--link-font-weight: normal;
+$--table-border-color: #E4E7ED;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

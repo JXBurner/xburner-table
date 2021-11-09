@@ -1,0 +1,440 @@
+<!--
+ * @Author: jinx
+ * @Date: 2021-07-22 18:11:02
+ * @LastEditors: jinx
+ * @Descripttion: 公共表格
+-->
+<template>
+    <!-- 表格主体 -->
+    <el-table
+      class="app-tableList"
+      v-loading="loading"
+      :data="tbody"
+      :ref="props.ref"
+      :id="props.ref"
+      :border="props.border"
+      :size="props.size"
+      :height="props.height"
+      max-height="100%"
+      :current-row-key="props.currentRowKey"
+      :row-class-name="props.rowClassName"
+      :highlight-current-row="props.highlightCurrentRow"
+      :header-cell-style="props.headerCellStyle"
+      :row-key="setRowKey"
+      @selection-change="selectionChange"
+      @select-all="selectAll"
+      @current-change="currentChange"
+      @row-dblclick="rowDblclick"
+    >
+      <!-- 多选列 -->
+      <el-table-column
+        :selectable="check.selectable"
+        v-if="check.show"
+        type="selection"
+        width="55"
+        align="center"
+        :reserve-selection="check.reserve"
+      ></el-table-column>
+      <!-- 单选列 -->
+      <el-table-column v-if="radio.show" width="55" align="center" label="单选">
+        <template slot-scope="scope">
+          <el-radio v-model="radioItem" :label="scope.row[radio.valueKey]">{{''}}</el-radio>
+        </template>
+      </el-table-column>
+      <!-- 序号列 -->
+      <el-table-column v-if="props.showIndex" type="index" width="55" align="center" label="序号"></el-table-column>
+      <!-- 数据列 -->
+      <template v-for="(item,index) in thead">
+        <el-table-column
+          v-if="!item.children"
+          :label="item.label"
+          :width="item.width"
+          :fixed="item.fixed"
+          :key="index + '-' + item.key"
+          :sort-by="item.key"
+          :sortable="props.sort!==false&&item.sort!==false&&!!item.label"
+          :sort-method="typeof item.sortMethod==='function'?item.sortMethod:defaultSortFn(item.sortType,item.key)"
+          :show-overflow-tooltip="item.showOverflowTooltip"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <span
+              v-if="item.formatter"
+              @click="columnClick(scope.row,item,$event)"
+              v-html="item.formatter(scope.row,scope.row[item.key],index)"
+            ></span>
+            <span
+              v-if="!item.formatter"
+              @click="columnClick(scope.row,item,$event)"
+            >{{scope.row[item.key]}}</span>
+          </template>
+        </el-table-column>
+        <!-- 多级表头 -->
+        <tableColumn
+          v-if="(item.children && item.children.length>0)"
+          :thead="item"
+          :props="props"
+          @coloptionfn="runColumnClick"
+          align="center"
+          :key="index"
+        ></tableColumn>
+      </template>
+      <!-- 操作列 -->
+      <el-table-column
+        v-if="buttonsList&&buttonsList.length>0"
+        :resizable="false"
+        label="操作"
+        align="center"
+        :fixed="fixedOperate"
+        :width="buttonTotalWidth"
+      >
+        <template slot-scope="scope">
+          <el-button
+            v-for="(item, index) in buttonsList"
+            :key="'options-'+ index"
+            :type="item.type"
+            :size="item.size"
+            :icon="item.icon"
+            :style="'color:'+item.color"
+            v-show="item.isShow&&typeof item.isShow==='function'?item.isShow(scope.row):true"
+            @click="columnClick(scope.row,item,$event)"
+          >{{item.label}}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+</template>
+
+<script>
+import tableColumn from './tableColumn.vue'
+export default {
+  components: { tableColumn },
+  props: {
+    tableInfo: { // 表格配置数据
+      type: Object,
+      default: () => { return {} },
+      required: true
+    },
+    loading: { // 显示加载动画
+      type: Boolean,
+      default: true
+    }
+  },
+  data () {
+    return {
+      // 表格基本属性配置
+      props: {
+        ref: 'baseTableRef',
+        height: '100%',
+        size: 'small',
+        border: false,
+        sort: false,
+        currentRowKey: '',
+        rowClassName: '', // 设置每一行的颜色
+        highlightCurrentRow: false, // 点击行是否高亮
+        headerCellStyle: { 'text-align': 'center' },
+        showIndex: false // 序号列
+      },
+      // 表格数据
+      tbody: [],
+      // 表头
+      thead: [],
+      // 操作按钮的总宽度
+      buttonTotalWidth: 0,
+      // 操作按钮列表
+      buttonsList: [],
+      // 固定操作列，具体参数与element-ui的fixed一致
+      fixedOperate: '',
+      // 表格checkbox
+      check: {
+        show: false,
+        selectable: () => true, // 是否有勾选能力
+        reserve: false // 数据更新后是否保存勾选的数据
+      },
+      // 是否显示单选按钮
+      radio: {
+        show: false
+      },
+      // 单选行数据
+      curChangeRow: {},
+      // 单选行的唯一标识
+      radioItem: ''
+    }
+  },
+  computed: {
+  },
+  watch: {
+    tableInfo (val) {
+      this.initTable(val)
+    }
+  },
+  methods: {
+    /**
+     * 初始化表格
+     * @author: jinx
+     * @Date: 2021-07-24 19:11:51
+     * @param {*} obj 父组件传进来表格的基本配置以及数据
+     * @return {*}
+     */
+    initTable (obj) {
+      // 没有row-key设置默认row-key,保证数据更新之后保留之前选中的数据（需指定 row-key）
+      if (!obj.props['row-key']) {
+        if (obj.tbody && obj.tbody.length > 0) {
+          obj.tbody.map((v, i) => {
+            v['row-key'] = this.setDefaultRowKey(i, obj.pagination?.page?.pageNo || 1)
+          })
+          obj.props['row-key'] = 'row-key'
+        }
+      }
+      this.props = Object.assign({}, this.props, obj.props)
+      this.check = Object.assign({}, this.check, obj.check)
+      this.radio = Object.assign({}, this.radio, obj.radio)
+      this.thead = obj.thead || []
+      this.tbody = obj.tbody || []
+      this.buttonsList = this.deepCopeArray(obj.buttonsList.btnsList) || []
+      this.fixedOperate = obj.buttonsList.fixed || this.fixedOperate
+      // 计算按钮总长度
+      this.buttonTotalWidth = this.buttonsList.reduce((o, v) => {
+        if (isNaN(v.width)) {
+          v.width = 0
+        }
+        return o + Number(v.width)
+      }, 0)
+      // 默认按钮总长度为100
+      if (!this.buttonTotalWidth) {
+        this.buttonTotalWidth = 100
+      }
+
+      if (this.radio.show && this.props['current-row'] && this.props['row-key']) {
+        // 设置选中行
+        let arr = obj.tbody.filter(v => v[this.props['row-key']] === this.props['current-row'])
+        // 要根据子组件传过来的行设置radio的选中状态，而不能直接去第一行的数据
+        this.radioItem = this.curChangeRow[this.radio.valueKey]
+        // 手动触发默认选中行current-change事件
+        this.$nextTick(() => {
+          if (this.curChangeRow.id === undefined) {
+            this.currentChange(arr[0], {})
+          }
+        })
+      } else {
+        this.radioItem = ''
+      }
+    },
+    /**
+     * 深度克隆数组(处理按钮和自定列的表头)
+     * @name: jinx
+     * @Date: 2021-07-24 23:40:07
+     * @param {*} arr
+     * @return {*}
+     */
+    deepCopeArray (arr) {
+      if (Array.isArray(arr)) {
+        var na = arr.reduce((o, v) => {
+          if (v.children === undefined) {
+            o.push(Object.assign({}, v))
+          } else {
+            let to = Object.assign({}, v)
+            to.children = this.deepCopeArray(to.children)
+            o.push(to)
+          }
+          return o
+        }, [])
+        return na
+      } else {
+        return false
+      }
+    },
+    /**
+     * 设置默认row-key
+     * @author: jinx
+     * @Date: 2021-07-22 16:39:48
+     * @param {*} index
+     * @param {*} num
+     * @return {*}
+     */
+    setDefaultRowKey (index, num) {
+      return num + '_' + index
+    },
+    /**
+     * 给表格设置row-key
+     * @author: jinx
+     * @Date: 2021-07-24 20:31:45
+     * @param {*} row 行数据
+     * @return {*}
+     */
+    setRowKey (row) {
+      return row[this.props['row-key']]
+    },
+    /**
+     * 某一列的点击事件
+     * @author: jinx
+     * @Date: 2021-07-24 16:59:40
+     * @param {*} row 数据行
+     * @param {*} item 单元格数据
+     * @param {*} event 点击事件
+     * @return {*}
+     */
+    columnClick (row, item, event) {
+      this.$emit('columnClick', row, item, event)
+    },
+    /**
+     * 多级表头时，触发某一列的点击事件
+     * @author: jinx
+     * @Date: 2021-07-24 17:53:25
+     * @param {*} obj
+     * @return {*}
+     */
+    runColumnClick (obj) {
+      this.columnClick(obj.row, obj.item, obj.event)
+    },
+    /**
+     * 当选择项发生变化时会触发该事件
+     * @author: jinx
+     * @Date: 2021-07-24 20:34:47
+     * @param {*} selection
+     * @return {*}
+     */
+    selectionChange (selection) {
+      this.$emit('selection-change', selection)
+    },
+    /**
+     * 当用户手动勾选全选 Checkbox 时触发的事件
+     * @author: jinx
+     * @Date: 2021-07-24 20:37:49
+     * @param {*} selection
+     * @return {*}
+     */
+    selectAll (selection) {
+      this.$emit('select-all', selection)
+    },
+    /**
+     * 当表格的当前行发生变化的时候会触发该事件
+     * @author: jinx
+     * @Date: 2021-07-24 20:42:43
+     * @param {*} currentRow
+     * @param {*} oldCurrentRow
+     * @return {*}
+     */
+    currentChange (currentRow, oldCurrentRow) {
+      if (this.radio?.show) {
+        this.radioItem = currentRow[this.radio.valueKey]
+        this.curChangeRow = currentRow
+      }
+      this.$emit('current-change', { currentRow, oldCurrentRow })
+    },
+    /**
+     * 当某一行被双击时会触发该事件,当表格的checkbox打开时会自动勾选
+     * @author: jinx
+     * @Date: 2021-07-24 20:46:04
+     * @param {*} row
+     * @param {*} column
+     * @param {*} event
+     * @return {*}
+     */
+    rowDblclick (row) {
+      if (this.check.show === false) {
+        return false
+      }
+      this.$refs[this.props.ref].toggleRowSelection(row)
+    },
+    /**
+     * 数据列默认排序方式为数字,支持自定义方法
+     * @author: jinx
+     * @Date: 2021-07-08 10:10:58
+     * @param {*} type 为string时按照字符串排序，否则按照数字
+     * @param {*} key
+     * @return {*}
+     */
+    defaultSortFn (type, key) {
+      if (type !== 'string') {
+        return function (a, b) {
+          const bigNumberCompare = (a, b) => {
+            if (!a && a !== 0) {
+              a = ''
+            }
+            if (!b && b !== 0) {
+              b = ''
+            }
+            let aArr = a.toString().split('.')
+            let bArr = b.toString().split('.')
+            // 直接比较整数部分长度
+            if (aArr[0].length > bArr[0].length) {
+              return 1
+            } else if (aArr[0].length < bArr[0].length) {
+              return -1
+            }
+            // 如果位数一样可以进行字符串比较
+            if (aArr[0] > bArr[0]) {
+              return 1
+            } else if (aArr[0] < bArr[0]) {
+              return -1
+            }
+            // 如果整数部分字符串也一样就进行小数比较
+            if (aArr[1] === undefined || bArr[1] === undefined) {
+              if (aArr[1] === undefined && bArr[1] === undefined) {
+                return 0
+              } else if (aArr[1] === undefined) {
+                return aArr[0] >= 0 ? -1 : 1
+              } else {
+                return aArr[0] >= 0 ? 1 : -1
+              }
+            } else {
+              return aArr[1] - bArr[1]
+            }
+          }
+
+          let av = parseFloat(a[key]) || a[key]
+          let bv = parseFloat(b[key]) || b[key]
+
+          let max = Number.MAX_SAFE_INTEGER
+          let min = Number.MIN_SAFE_INTEGER
+          if (typeof av === 'number' && typeof bv === 'number') {
+            if ((av > max && bv > max) || (av < min && bv < min)) {
+              // 超限数字比较
+              return bigNumberCompare(av, bv)
+            } else {
+              // 数字比较
+              return av - bv
+            }
+          } else {
+            // 字符串比较
+            if (!av) {
+              av = ''
+            }
+            if (!bv) {
+              bv = ''
+            }
+            if (av.toString() > bv.toString()) {
+              return 1
+            } else if (av.toString() < bv.toString()) {
+              return -1
+            } else {
+              return 0
+            }
+          }
+        }
+      } else {
+        return undefined
+      }
+    },
+    /**
+     * 触发表格的方法
+     * @author: jinx
+     * @Date: 2021-07-24 18:09:17
+     * @param {*} fnName
+     * @return {*}
+     * 在对应页面使用方法（baseTable的ref：table）：
+     * this.$refs.table.tableMethods("clearSelection")()
+     * this.$refs.table.tableMethods("toggleRowSelection")(row, true);
+     */
+    tableMethods (fnName) {
+      let fn = this.$refs
+      let key = this.props.ref + '_baseTable'
+      if (this.props.ref) {
+        return fn[key][fnName]
+      } else {
+        return () => false
+      }
+    }
+  }
+}
+</script>
