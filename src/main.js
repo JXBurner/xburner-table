@@ -8,11 +8,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import ElementUI from 'element-ui'
 import '@/assets/styles/element-variables.scss'
-// import xburnertable from 'xburner-table'
+
+import xburnertable from '@/lib/xburner-table/index.js'
+// import xburnertable from 'xburnertable'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-// Vue.use(xburnertable)
+Vue.use(xburnertable)
 
 new Vue({
   render: h => h(App),

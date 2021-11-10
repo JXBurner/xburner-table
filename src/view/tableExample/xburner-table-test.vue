@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import xburnertable from '@/lib/xburner-table/lib/index.vue'
 import { mockData } from '@/view/mockData/tableData'
 
 export default {
@@ -262,8 +261,7 @@ export default {
         return row?.devopsTask[0].taskType
       }
     }
-  },
-  components: { xburnertable }
+  }
 
 }
 </script>

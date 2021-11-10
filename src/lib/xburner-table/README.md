@@ -103,7 +103,7 @@ Vue.use(xburnertable)
 基本表格数据展示.初始化表格:initTableData()为入口、props为表格属性、thead为表头、tbody为表格数据;
 
 ```html
-<xBurner-Table
+<xburnertable
     ref="table"
     v-loading="loading"
     :data="xBurnerTableData"
@@ -111,7 +111,7 @@ Vue.use(xburnertable)
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-  ></xBurner-Table>
+  ></xburnertable>
 ```
 
 ```javaScript
