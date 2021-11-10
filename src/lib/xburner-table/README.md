@@ -53,7 +53,6 @@ Vue.use(xBurnerTable)
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 | - | :- | :- | :-: |
 | thead | 表头 | array | - | 
-
 | showIndex | 是否显示序号列 | Boolean | false |
 | showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | false |
 | showCheckBox | 是否显示多选列 | Boolean | false |
@@ -65,6 +64,7 @@ Vue.use(xBurnerTable)
 
 
 ### buttonsList操作列 Attributes
+
 | 参数 | 说明 | 类型 | 默认值 | 可选值 | 
 | - | :- | :- | :-: |  
 | label | 按钮名字 | string | - | 
