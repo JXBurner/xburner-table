@@ -9,8 +9,8 @@ import App from './App.vue'
 import ElementUI from 'element-ui'
 import '@/assets/styles/element-variables.scss'
 
-import xburnertable from '@/lib/xburner-table/index.js'
-// import xburnertable from 'xburnertable'
+// import xburnertable from '@/lib/xburner-table/index.js'
+import xburnertable from 'xburner-table'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

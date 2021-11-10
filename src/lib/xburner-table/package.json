@@ -1,5 +1,5 @@
 {
-  "name": "xburnertable",
+  "name": "xburner-table",
   "version": "1.0.0",
   "description": "二次封装 element ui 的 el-table",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "xburnertable"
+    "xburner-table"
   ],
   "author": "jx",
   "license": "ISC"
