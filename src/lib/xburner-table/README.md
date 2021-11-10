@@ -52,7 +52,7 @@ Vue.use(xburnertable)
 ### Table-column Attributes
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
-| - | :- | :- | :-: |
+| - | :- | :- | :-: | :-: |
 | thead | 表头 | array | - | 
 | showIndex | 是否显示序号列 | Boolean | false |
 | showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | false |
@@ -67,7 +67,7 @@ Vue.use(xburnertable)
 ### buttonsList操作列 Attributes
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 | 
-| - | :- | :- | :-: |  
+| - | :- | :- | :-: | :-: |
 | label | 按钮名字 | string | - | 
 | icon | 图标类名 | string | - |
 | color | 按钮颜色 | String | - |
