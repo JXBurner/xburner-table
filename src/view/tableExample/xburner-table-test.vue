@@ -1,6 +1,6 @@
 <template>
   <div class="xBurnerTable">
-    <xBurner-Table
+    <xburnertable
     ref="table"
     v-loading="loading"
     :data="xBurnerTableData"
@@ -8,13 +8,12 @@
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-    class="xBurnerTable"
-  ></xBurner-Table>
+  ></xburnertable>
   </div>
 </template>
 
 <script>
-import xBurnerTable from '@/lib/xburner-table/lib/index.vue'
+import xburnertable from '@/lib/xburner-table/lib/index.vue'
 import { mockData } from '@/view/mockData/tableData'
 
 export default {
@@ -264,7 +263,7 @@ export default {
       }
     }
   },
-  components: { xBurnerTable }
+  components: { xburnertable }
 
 }
 </script>

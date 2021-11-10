@@ -4,16 +4,17 @@
 ### 插件的安装
 #### NPM 
 ```
-npm i xBurnerTable
+npm i xburner-table
 ```
 #### 引入插件
 ```
 import Vue from 'vue'
-import xBurnerTable from 'xBurnerTable'
+import xburnertable from 'xburnertable'
 
-Vue.use(xBurnerTable)
+Vue.use(xburnertable)
 ```
 ### Table Attributes
+
 | 参数 | 说明 | 类型 | 默认值 |  
 | - | :- | :- | :-: |  
 | ref | 获取当前插件实例 | string | - |
@@ -110,7 +111,6 @@ Vue.use(xBurnerTable)
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-    class="xBurnerTable"
   ></xBurner-Table>
 ```
 

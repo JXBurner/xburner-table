@@ -6,17 +6,17 @@
 -->
 <template>
   <div id="app">
-    <xBurnerTable msg="Welcome to Your Vue.js App"/>
+    <test msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
 
 <script>
-import xBurnerTable from './view/tableExample/xburner-table-test.vue'
+import test from './view/tableExample/xburner-table-test.vue'
 
 export default {
   name: 'App',
   components: {
-    xBurnerTable
+    test
   }
 }
 </script>

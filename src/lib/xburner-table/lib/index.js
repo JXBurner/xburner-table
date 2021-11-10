@@ -12,8 +12,8 @@ const xTablePlugin = {
     // 该插件有一个install方法
     // 方法的第一个参数是传入的Vue，第二个参数可以插件的自定义参数
     install (Vue) {
-        // 将其注册为vue的组件，'xBurnerTable'是组件名，tableComponent是我们开发的组件
-        Vue.component('xBurnerTable', tableComponent)
+        // 将其注册为vue的组件，'xburnertable'是组件名，tableComponent是我们开发的组件
+        Vue.component('xburnertable', tableComponent)
     }
 }
 
