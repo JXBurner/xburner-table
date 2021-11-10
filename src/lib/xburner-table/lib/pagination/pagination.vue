@@ -11,10 +11,10 @@
       background
       v-if="pagination.show"
       :page-sizes="pagination.pageSizes"
-      :current-page="pagination.page.pageNo"
-      :page-size="pagination.page.pageSize"
-      :total="pagination.page.total"
-      :layout="pagination.paginationLayout"
+      :current-page="pagination.currentPage"
+      :page-size="pagination.pageSize"
+      :total="pagination.total"
+      :layout="pagination.layout"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
@@ -36,15 +36,12 @@ export default {
       // 分页插件配置参数
       pagination: {
         show: false, // 是否显示分页插件
-        fn: '',
-        page: {
-          pageNo: 1,
-          pageSize: 20,
-          total: 0
-        },
+        currentPage: 1,
+        pageSize: 20,
+        total: 0,
         // 每页显示条目个数
         pageSizes: [20, 40, 80, 120],
-        paginationLayout: 'total, sizes, prev, pager, next, jumper'
+        layout: 'total, sizes, prev, pager, next, jumper'
       }
     }
   },
@@ -66,9 +63,11 @@ export default {
     initPagination (obj) {
       this.pagination.show = obj.show || this.pagination.show
       if (obj.show) {
-        this.pagination.page = obj.page || this.pagination.page
+        this.pagination.currentPage = obj.currentPage || this.pagination.currentPage
+        this.pagination.pageSize = obj.pageSize || this.pagination.pageSize
+        this.pagination.total = obj.total || this.pagination.total
         this.pagination.pageSizes = obj.pageSizes || this.pagination.pageSizes
-        this.pagination.paginationLayout = obj.paginationLayout || this.pagination.paginationLayout
+        this.pagination.layout = obj.layout || this.pagination.layout
       }
     },
     /**

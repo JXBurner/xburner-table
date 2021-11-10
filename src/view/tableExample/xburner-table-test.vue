@@ -22,8 +22,8 @@ export default {
     return {
       loading: false,
       xBurnerTableData: {}, // 表格数据
-      pageSizeArr: [20, 40, 80, 120], // 每页显示条目个数
-      paginationLayout: 'total, sizes, prev, pager, next, jumper'
+      pageSizes: [20, 40, 80, 120], // 每页显示条目个数
+      layout: 'total, sizes, prev, pager, next, jumper'
     }
   },
   computed: {
@@ -178,13 +178,11 @@ export default {
         },
         pagination: { // 分页插件
           show: true,
-          page: {
-            pageNo: result.current,
-            pageSize: result.size,
-            total: result.total
-          }
-          // pageSizes: this.pageSizeArr,
-          // paginationLayout: this.paginationLayout
+          currentPage: result.current,
+          pageSize: result.size,
+          total: result.total,
+          pageSizes: this.pageSizes,
+          layout: this.layout
         }
       }
     },

@@ -29,7 +29,7 @@
       <!-- 多选列 -->
       <el-table-column
         :selectable="check.selectable"
-        v-if="check.show"
+        v-if="check.showCheckBox"
         type="selection"
         width="55"
         align="center"
@@ -146,7 +146,7 @@ export default {
       fixedOperate: '',
       // 表格checkbox
       check: {
-        show: false,
+        showCheckBox: false,
         selectable: () => true, // 是否有勾选能力
         reserve: false // 数据更新后是否保存勾选的数据
       },
@@ -331,7 +331,7 @@ export default {
      * @return {*}
      */
     rowDblclick (row) {
-      if (this.check.show === false) {
+      if (this.check.showCheckBox === false) {
         return false
       }
       this.$refs[this.props.ref].toggleRowSelection(row)
