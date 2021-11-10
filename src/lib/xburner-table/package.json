@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "二次封装 element ui 的 el-table",
   "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "xburner-table"
   ],
-  "author": "jx",
+  "author": "jxburner",
   "license": "ISC"
 }
