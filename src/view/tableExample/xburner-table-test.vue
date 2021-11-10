@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import xBurnerTable from '@/components/xburner-table/index'
+import xBurnerTable from '@/lib/xburner-table/lib/index.vue'
 import { mockData } from '@/view/mockData/tableData'
 
 export default {

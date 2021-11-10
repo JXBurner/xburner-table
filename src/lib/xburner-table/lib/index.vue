@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import comTable from './table.vue'
-import comPagination from './pagination.vue'
+import comTable from './table/table.vue'
+import comPagination from './pagination/pagination.vue'
 export default {
   components: { comTable, comPagination },
   props: {
