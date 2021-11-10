@@ -9,7 +9,7 @@ npm i xburner-table
 #### 引入插件
 ```
 import Vue from 'vue'
-import xburnertable from 'xburnertable'
+import xburnertable from 'xburner-table'
 
 Vue.use(xburnertable)
 ```
