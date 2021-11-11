@@ -1,17 +1,17 @@
 {
   "name": "ld-table",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "二次封装 element ui 的 el-table",
   "main": "index.js",
+  "keyword": "ld-table ld-table",
+  "homepage": "https://github.com/JXBurner/xburner-table.git",
+  "private": false,
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "ld-table"
-  ],
   "author": "jxburner",
   "license": "ISC"
 }

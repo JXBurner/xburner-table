@@ -1,20 +1,19 @@
-# xburner-table
+# el-table
 二次封装 element ui 的 el-table
 
 ### 插件的安装
 #### NPM 
 ```
-npm i xburner-table
+npm i ld-table
 ```
 #### 引入插件
 ```
 import Vue from 'vue'
-import xburnertable from 'xburner-table'
+import ldtable from 'ld-table'
 
-Vue.use(xburnertable)
+Vue.use(ldtable)
 ```
 ### Table Attributes
-
 | 参数 | 说明 | 类型 | 默认值 |  
 | - | :- | :- | :-: |  
 | ref | 获取当前插件实例 | string | - |
@@ -52,7 +51,7 @@ Vue.use(xburnertable)
 ### Table-column Attributes
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
-| - | :- | :- | :-: | :-: |
+| - | :- | :- | :-: | :-: | 
 | thead | 表头 | array | - | 
 | showIndex | 是否显示序号列 | Boolean | false |
 | showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | false |
@@ -67,7 +66,7 @@ Vue.use(xburnertable)
 ### buttonsList操作列 Attributes
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 | 
-| - | :- | :- | :-: | :-: |
+| - | :- | :- | :-: | :-: | 
 | label | 按钮名字 | string | - | 
 | icon | 图标类名 | string | - |
 | color | 按钮颜色 | String | - |
@@ -103,15 +102,15 @@ Vue.use(xburnertable)
 基本表格数据展示.初始化表格:initTableData()为入口、props为表格属性、thead为表头、tbody为表格数据;
 
 ```html
-<xburnertable
-    ref="table"
-    v-loading="loading"
-    :data="xBurnerTableData"
-    @columnClick="columnClick"
-    @selection-change="selectionChange"
-    @handleCurrentChange="handleCurrentChange"
-    @handleSizeChange="handleSizeChange"
-  ></xburnertable>
+  <ld-table
+      ref="table"
+      v-loading="loading"
+      :data="xBurnerTableData"
+      @columnClick="columnClick"
+      @selection-change="selectionChange"
+      @handleCurrentChange="handleCurrentChange"
+      @handleSizeChange="handleSizeChange"
+    ></ld-table>
 ```
 
 ```javaScript

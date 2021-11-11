@@ -1,17 +1,17 @@
-# xburnertable
+# el-table
 二次封装 element ui 的 el-table
 
 ### 插件的安装
 #### NPM 
 ```
-npm i xburner-table
+npm i ld-table
 ```
 #### 引入插件
 ```
 import Vue from 'vue'
-import xburnertable from 'xburner-table'
+import ldtable from 'ld-table'
 
-Vue.use(xburnertable)
+Vue.use(ldtable)
 ```
 ### Table Attributes
 | 参数 | 说明 | 类型 | 默认值 |  
@@ -102,7 +102,7 @@ Vue.use(xburnertable)
 基本表格数据展示.初始化表格:initTableData()为入口、props为表格属性、thead为表头、tbody为表格数据;
 
 ```html
-  <xburnertable
+  <ld-table
       ref="table"
       v-loading="loading"
       :data="xBurnerTableData"
@@ -110,7 +110,7 @@ Vue.use(xburnertable)
       @selection-change="selectionChange"
       @handleCurrentChange="handleCurrentChange"
       @handleSizeChange="handleSizeChange"
-    ></xburnertable>
+    ></ld-table>
 ```
 
 ```javaScript

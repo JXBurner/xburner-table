@@ -9,13 +9,11 @@ import App from './App.vue'
 import ElementUI from 'element-ui'
 import '@/assets/styles/element-variables.scss'
 
-import xburnertable from 'xburnertable'
-import ldTable from 'ld-table'
+import ldtable from 'ld-table'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-Vue.use(xburnertable)
-Vue.use(ldTable)
+Vue.use(ldtable)
 
 new Vue({
   render: h => h(App),
