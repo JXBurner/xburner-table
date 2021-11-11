@@ -1,6 +1,6 @@
 <template>
   <div class="xBurnerTable">
-    <xburnertable
+    <ld-table
     ref="table"
     v-loading="loading"
     :data="xBurnerTableData"
@@ -8,7 +8,7 @@
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-  ></xburnertable>
+  ></ld-table>
   </div>
 </template>
 
