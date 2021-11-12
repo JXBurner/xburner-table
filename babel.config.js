@@ -9,6 +9,6 @@ module.exports = {
     '@vue/app'
   ],
   plugins: [
-    '@babel/plugin-proposal-optional-chaining'
+    '@babel/plugin-proposal-optional-chaining' // 可选链式操作符
   ]
 }

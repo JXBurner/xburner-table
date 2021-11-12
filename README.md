@@ -13,9 +13,19 @@ import ldtable from 'ld-table'
 
 Vue.use(ldtable)
 ```
+#### 准备工作
+```
+1、下载依赖支持可选链式操作符：
+@babel/plugin-proposal-optional-chaining
 
+2、babel.config.js配置如下:
+plugins: [
+    '@babel/plugin-proposal-optional-chaining'
+]
+```
 #### 基本用法
-基本表格数据展示.初始化表格:initTable();  props为表格属性、thead为表头、tbody为表格数据、buttonsList为操作列、pagination为分页插件;
+1、基本表格数据展示.初始化表格:initTable();  props为表格属性、thead为表头、tbody为表格数据、buttonsList为操作列、pagination为分页插件;
+2、表格data对象里面的props、thead、tbody必填，其他参数可选
 
 引入插件
 ```
@@ -29,7 +39,7 @@ Vue.use(ldtable)
   <ld-table
       ref="table"
       v-loading="loading"
-      :data="xBurnerTableData"
+      :data="xBurnerTableData" 
       @columnClick="columnClick"
       @selection-change="selectionChange"
       @handleCurrentChange="handleCurrentChange"
@@ -42,7 +52,6 @@ Vue.use(ldtable)
       let result = mockData
       this.xBurnerTableData = {
         props: { // 表格属性
-          showIndex: true, // 序号列
           size: 'mini',
           height: '750'
         },
