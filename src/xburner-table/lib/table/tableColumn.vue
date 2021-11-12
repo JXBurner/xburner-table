@@ -13,7 +13,7 @@
         :width="item.width"
         :key="index+'-'+item.key"
         :sort-by="item.key"
-        :sortable="props.sort!==false&&item.sort!==false&&!!item.label"
+        :sortable="item.sort"
         :show-overflow-tooltip="item.showOverflowTooltip"
         align="center"
       >
@@ -29,13 +29,13 @@
           >{{scope.row[item.key]}}</span>
         </template>
       </el-table-column>
-        <tableColumn v-if="(item.children && item.children.length>0)" :thead="item" :props="props" @coloptionfn="columnClick" :key="index"></tableColumn>
+        <tableColumn v-if="(item.children && item.children.length>0)" :thead="item" :props="props" @colOptionFn="columnClick" :key="index"></tableColumn>
     </template>
   </el-table-column>
 </template>
 <script>
 export default {
-  name: 'tableColumn',
+  name: 'ldTableColumn',
   props: ['thead', 'props'],
   components: {},
   data () {
@@ -54,7 +54,7 @@ export default {
      * @return {*}
      */
     columnClick (row, item, event) {
-      this.$emit('coloptionfn', { row, item, event })
+      this.$emit('colOptionFn', { row, item, event })
     }
   },
   created () {

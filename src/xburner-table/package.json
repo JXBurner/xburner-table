@@ -1,16 +1,32 @@
 {
   "name": "ld-table",
-  "version": "1.0.5",
+  "version": "1.0.9",
   "description": "二次封装 element ui 的 el-table",
   "main": "index.js",
   "keyword": "ld-table ld-table",
-  "homepage": "https://github.com/JXBurner/xburner-table.git",
   "private": false,
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "element-ui": "^2.12.0",
+    "node-sass": "^4.9.1",
+    "sass-loader": "^7.1.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11"
   },
   "author": "jxburner",
   "license": "ISC"

@@ -1,6 +1,6 @@
 <template>
   <div class="xBurnerTable">
-    <ld-table
+    <ldtable
     ref="table"
     v-loading="loading"
     :data="xBurnerTableData"
@@ -8,13 +8,14 @@
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-  ></ld-table>
+  ></ldtable>
   </div>
 </template>
 
 <script>
 import { mockData } from '@/view/mockData/tableData'
 
+import ldtable from '@/xburner-table/lib/index.vue'
 export default {
   data () {
     return {
@@ -103,7 +104,7 @@ export default {
           label: '日均租借',
           key: 'avgRentTimes',
           showOverflowTooltip: true,
-          sort: true
+          sort: 'custom'
         },
         {
           label: '关联工单',
@@ -155,25 +156,25 @@ export default {
         },
         thead: this.thead,
         tbody: result.records || [],
-        buttonsList: { // 操作按钮
-          fixed: 'right',
-          btnsList: [
-            {
-              label: '修改',
-              width: 70,
-              type: 'text',
-              size: 'small',
-              columnClick: 'openDetail'
-            },
-            {
-              width: 70,
-              type: 'text',
-              size: 'small',
-              columnClick: 'openDetail',
-              icon: 'iconfont icongengduo'
-            }
-          ]
-        },
+        // buttonsList: { // 操作按钮
+        //   fixed: 'right',
+        //   btnsList: [
+        //     {
+        //       label: '修改',
+        //       width: 70,
+        //       type: 'text',
+        //       size: 'small',
+        //       columnClick: 'openDetail'
+        //     },
+        //     {
+        //       width: 70,
+        //       type: 'text',
+        //       size: 'small',
+        //       columnClick: 'openDetail',
+        //       icon: 'iconfont icongengduo'
+        //     }
+        //   ]
+        // },
         pagination: { // 分页插件
           show: true,
           currentPage: result.current,
@@ -261,6 +262,9 @@ export default {
         return row?.devopsTask[0].taskType
       }
     }
+  },
+  components: {
+    ldtable
   }
 
 }

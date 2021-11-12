@@ -1,14 +1,14 @@
+/*
+ * @Author: jinx
+ * @Date: 2021-11-09 17:03:27
+ * @LastEditors: jinx
+ * @Descripttion: 文件描述
+ */
 module.exports = {
   presets: [
     '@vue/app'
   ],
   plugins: [
-    '@babel/plugin-proposal-optional-chaining',
-    [
-      '@babel/plugin-transform-modules-commonjs',
-      {
-        allowTopLevelThis: true
-      }
-    ]
+    '@babel/plugin-proposal-optional-chaining'
   ]
 }

@@ -15,11 +15,12 @@
     @selection-change="selectionChange"
     @select-all="selectAll"
     @current-change="currentChange"
+    @sort-change="sortChange"
     >
     </com-table>
     <!-- 分页 -->
     <footer class="table-footer">
-      <com-pagination :paginationInfo="paginationInfo" @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"></com-pagination>
+      <com-pagination :paginationInfo="paginationInfo" @current-change="handleCurrentChange" @size-change="handleSizeChange"></com-pagination>
     </footer>
   </div>
 </template>
@@ -111,6 +112,16 @@ export default {
       this.$emit('current-change', { currentRow, oldCurrentRow })
     },
     /**
+     * 远程排序方法
+     * @author: jinx
+     * @Date: 2021-11-12 11:15:55
+     * @param {*}
+     * @return {*}
+     */
+    sortChange (column, prop, order) {
+      this.$emit('sort-change', column, prop, order)
+    },
+    /**
      * 触发表格的方法
      * @author: jinx
      * @Date: 2021-07-24 18:09:17
@@ -124,7 +135,7 @@ export default {
       this.$refs.table.tableMethods(fnName)()
     },
     /**
-     * 分页事件pageSize 改变时会触发
+     * pageSize 改变时会触发
      * @author: jinx
      * @Date: 2021-07-22 16:16:18
      * @param {*}
@@ -134,7 +145,7 @@ export default {
       this.$emit('handleSizeChange', pageSize)
     },
     /**
-     * 分页事件 currentPage 改变时会触发
+     * currentPage 改变时会触发
      * @author: jinx
      * @Date: 2021-07-22 16:18:36
      * @param {*} cur

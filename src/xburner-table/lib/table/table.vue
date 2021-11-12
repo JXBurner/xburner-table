@@ -2,7 +2,7 @@
  * @Author: jinx
  * @Date: 2021-07-22 18:11:02
  * @LastEditors: jinx
- * @Descripttion: 公共表格
+ * @Descripttion: 公共表格组件
 -->
 <template>
     <!-- 表格主体 -->
@@ -25,6 +25,7 @@
       @select-all="selectAll"
       @current-change="currentChange"
       @row-dblclick="rowDblclick"
+      @sort-change="sortChange"
     >
       <!-- 多选列 -->
       <el-table-column
@@ -52,7 +53,7 @@
           :fixed="item.fixed"
           :key="index + '-' + item.key"
           :sort-by="item.key"
-          :sortable="props.sort!==false&&item.sort!==false&&!!item.label"
+          :sortable="item.sort"
           :sort-method="typeof item.sortMethod==='function'?item.sortMethod:defaultSortFn(item.sortType,item.key)"
           :show-overflow-tooltip="item.showOverflowTooltip"
           align="center"
@@ -74,7 +75,7 @@
           v-if="(item.children && item.children.length>0)"
           :thead="item"
           :props="props"
-          @coloptionfn="runColumnClick"
+          @colOptionFn="runColumnClick"
           align="center"
           :key="index"
         ></tableColumn>
@@ -107,6 +108,7 @@
 <script>
 import tableColumn from './tableColumn.vue'
 export default {
+  name: 'mainLdTable',
   components: { tableColumn },
   props: {
     tableInfo: { // 表格配置数据
@@ -127,7 +129,6 @@ export default {
         height: '100%',
         size: 'small',
         border: false,
-        sort: false,
         currentRowKey: '',
         rowClassName: '', // 设置每一行的颜色
         highlightCurrentRow: false, // 点击行是否高亮
@@ -190,8 +191,8 @@ export default {
       this.radio = Object.assign({}, this.radio, obj.radio)
       this.thead = obj.thead || []
       this.tbody = obj.tbody || []
-      this.buttonsList = this.deepCopeArray(obj.buttonsList.btnsList) || []
-      this.fixedOperate = obj.buttonsList.fixed || this.fixedOperate
+      this.buttonsList = this.deepCopeArray(obj?.buttonsList?.btnsList) || []
+      this.fixedOperate = obj?.buttonsList?.fixed || this.fixedOperate
       // 计算按钮总长度
       this.buttonTotalWidth = this.buttonsList.reduce((o, v) => {
         if (isNaN(v.width)) {
@@ -335,6 +336,16 @@ export default {
         return false
       }
       this.$refs[this.props.ref].toggleRowSelection(row)
+    },
+    /**
+     * 远程排序方法
+     * @author: jinx
+     * @Date: 2021-11-12 11:15:55
+     * @param {*}
+     * @return {*}
+     */
+    sortChange (column, prop, order) {
+      this.$emit('sort-change', column, prop, order)
     },
     /**
      * 数据列默认排序方式为数字,支持自定义方法

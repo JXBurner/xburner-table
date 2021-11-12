@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: 'pagination',
+  name: 'ldTableColumn',
   props: {
     paginationInfo: { // 分页配置数据
       type: Object,
@@ -78,7 +78,7 @@ export default {
      * @return {*}
      */
     handleSizeChange (pageSize) {
-      this.$emit('handleSizeChange', pageSize)
+      this.$emit('size-change', pageSize)
     },
     /**
      * currentPage 改变时会触发
@@ -88,7 +88,7 @@ export default {
      * @return {*}
      */
     handleCurrentChange (cur) {
-      this.$emit('handleCurrentChange', cur)
+      this.$emit('current-change', cur)
     }
   }
 }
