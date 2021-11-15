@@ -5,6 +5,7 @@
  * @Descripttion: 公共表格组件
 -->
 <template>
+  <div class="mainLdTable">
     <!-- 表格主体 -->
     <el-table
       class="app-tableList"
@@ -15,6 +16,7 @@
       :border="props.border"
       :size="props.size"
       :height="props.height"
+      :lazy="props.lazy"
       max-height="100%"
       :current-row-key="props.currentRowKey"
       :row-class-name="props.rowClassName"
@@ -116,6 +118,7 @@
         </template>
       </el-table-column>
     </el-table>
+  </div>
 </template>
 
 <script>
@@ -143,6 +146,7 @@ export default {
         size: 'small',
         showIndex: false, // 序号列
         border: false,
+        lazy: false,
         currentRowKey: '', // 当前行的 key，只写属性
         rowClassName: '', // 设置每一行的颜色
         highlightCurrentRow: false, // 点击行是否高亮
@@ -238,7 +242,7 @@ export default {
       // }
     },
     /**
-     * 深度克隆数组(处理按钮和自定列的表头)
+     * 深度克隆数组(处理按钮)
      * @name: jinx
      * @Date: 2021-07-24 23:40:07
      * @param {*} arr

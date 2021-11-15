@@ -175,14 +175,15 @@ export default {
           btnsList: [ // 外层操作列表非必传
             {
               label: '修改',
-              width: 60,
-              type: 'text',
-              size: 'small',
+              width: 80,
+              type: "primary",
+              size: 'mini',
+              icon: "el-icon-edit",
               columnClick: 'openDetail'
             },
             {
               label: '新增',
-              width: 60,
+              width: 80,
               type: 'text',
               size: 'small',
               columnClick: 'openDetail'

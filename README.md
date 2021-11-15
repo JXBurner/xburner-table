@@ -114,7 +114,7 @@ Vue.use(ldtable)
       }
     },
 ```
-多级表头传参
+多级表头传参示例
 ```javaScript
   thead = [
       {
@@ -148,7 +148,8 @@ Vue.use(ldtable)
 | height | Table 的高度| string/number | '100% ' |
 | tbody | 显示的数据 | array | - |
 | ref | 获取当前插件实例 | string | - |
-| border | 是否带有纵向边框 | Boolean | false | 
+| border | 是否带有纵向边框 | Boolean | false |
+| lazy | 是否带有纵向边框 | Boolean | false |
 | size | Table 的尺寸| string | - |
 | row-key | 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的 | Function(row)/String | - |
 | currentRowKey | 当前行的 key，只写属性 | String,Number | - |
