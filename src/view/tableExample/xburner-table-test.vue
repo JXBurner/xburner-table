@@ -33,7 +33,7 @@ export default {
         {
           label: '设备ID',
           key: 'terminal',
-          width: 150,
+          width: 160,
           fixed: 'left',
           columnClick: 'openDetail',
           formatter: (row) => `<span style="color:#0584F9">${row.terminal}</span>`

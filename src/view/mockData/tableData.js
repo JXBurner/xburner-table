@@ -27,7 +27,31 @@ export const mockData = {
       "exceptionItem": ["满仓", "离线超时天数:266"],
       "updateTime": "2020-08-12 14:14:02",
       "takeOfferCnt": 0,
-      "reasonableValue": 0
+      "reasonableValue": 0,
+      "children": [{
+        "deviceId": 1,
+        "terminal": "00000810101260",
+        "deviceType": "LDX-8-WHITE",
+        "shop": {
+          "name": "来电909",
+          "address": "广东省深圳市南山区深圳湾公园"
+        },
+        "healthScore": 0,
+        "coord": {
+          "lat": 41.789052,
+          "lng": 123.393365
+        },
+        "deviceState": 3,
+        "offlineTime": "266天21小时",
+        "totalChannel": 8,
+        "currCDBCnt": 2,
+        "rentNotReturnCnt": 0,
+        "avgRentTimes": 0,
+        "exceptionItem": ["满仓", "离线超时天数:266"],
+        "updateTime": "2020-08-12 14:14:02",
+        "takeOfferCnt": 0,
+        "reasonableValue": 0,
+        }]
     }, {
       "deviceId": 1580,
       "terminal": "000012000243",
