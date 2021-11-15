@@ -154,10 +154,11 @@ export default {
       this.xBurnerTableData = { // 传给表格data的对象
         props: { // 表格属性为必传
           height: '750', // 必传
-          'row-key': 'deviceId',
-          currentRowKey:  result.records.length > 0 ? result.records[0].deviceId : "", // 提供给单选按钮的唯一值,默认选中行
+          'row-key': 'deviceId', // 非必传
           showIndex: true, // 序号列非必传
           size: 'mini', // 非必传
+          border: true, // 非必传
+          currentRowKey:  result.records.length > 0 ? result.records[0].deviceId : "", // 提供给单选按钮的唯一值,默认选中行
           rowClassName: scope =>  scope.row.deviceId === 8002 ? "row-error" : "", // 处理行样式，非必传
         },
         check: { // 多选复选框非必传
@@ -171,20 +172,31 @@ export default {
         tbody: result.records || [], // 表格数据为必传
         buttonsList: { // 操作按钮非必传
           fixed: 'right',
-          btnsList: [
+          btnsList: [ // 外层操作列表非必传
             {
               label: '修改',
-              width: 50,
+              width: 60,
               type: 'text',
               size: 'small',
               columnClick: 'openDetail'
             },
             {
-              width: 50,
+              label: '新增',
+              width: 60,
               type: 'text',
               size: 'small',
-              columnClick: 'openDetail',
-              icon: 'iconfont icongengduo'
+              columnClick: 'openDetail'
+            },
+          ],
+          moreBtnsList: [ // 操作列表非必传dropdown
+            {
+              label: '删除',
+              columnClick: 'deleteFn'
+            },
+            {
+              label: '详情',
+              isShow: ()=> true,
+              columnClick: 'openDetail'
             }
           ]
         },
@@ -197,6 +209,16 @@ export default {
           layout: this.layout
         }
       }
+    },
+    /**
+     * 删除
+     * @author: jinx
+     * @Date: 2021-11-15 16:27:13
+     * @param {*}
+     * @return {*}
+     */
+    deleteFn(row) {
+      this.$message.success(row.terminal + '：删除成功')
     },
     /**
      * 打开详情

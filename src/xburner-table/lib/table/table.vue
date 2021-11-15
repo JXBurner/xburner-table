@@ -82,14 +82,14 @@
       </template>
       <!-- 操作列 -->
       <el-table-column
-        v-if="buttonsList&&buttonsList.length>0"
+        v-if="buttonsList&&buttonsList.length||moreBtnsList&&moreBtnsList.length"
         :resizable="false"
         label="操作"
         align="center"
         :fixed="fixedOperate"
         :width="buttonTotalWidth"
       >
-        <template slot-scope="scope">
+        <template slot-scope="{row}">
           <el-button
             v-for="(item, index) in buttonsList"
             :key="'options-'+ index"
@@ -97,9 +97,22 @@
             :size="item.size"
             :icon="item.icon"
             :style="'color:'+item.color"
-            v-show="item.isShow&&typeof item.isShow==='function'?item.isShow(scope.row):true"
-            @click="columnClick(scope.row,item,$event)"
+            v-show="buttonsList.length&&item.isShow&&typeof item.isShow==='function'?item.isShow(row):true"
+            @click="columnClick(row,item,$event)"
           >{{item.label}}</el-button>
+          <el-dropdown trigger="click" v-show="moreBtnsList.length">
+            <i class="moreBtns">...</i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item 
+                v-for="(item, index) in moreBtnsList"
+                :key="'options-'+ index"
+                :command="{...row, dropIndex: index}"
+                v-show="item.isShow&&typeof item.isShow==='function'?item.isShow(row):true"
+              >
+              <span @click="columnClick(row,item,$event)">{{item.label}}</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
       </el-table-column>
     </el-table>
@@ -141,10 +154,12 @@ export default {
       thead: [],
       // 操作按钮的总宽度
       buttonTotalWidth: 0,
-      // 操作按钮列表
+      // 操作外层按钮
       buttonsList: [],
+      // 列表操作按钮
+      moreBtnsList:[],
       // 固定操作列，具体参数与element-ui的fixed一致
-      fixedOperate: '',
+      fixedOperate: 'right',
       // 表格checkbox
       check: {
         showCheckBox: false,
@@ -192,7 +207,8 @@ export default {
       this.radio = Object.assign({}, this.radio, obj.radio)
       this.thead = obj.thead || []
       this.tbody = obj.tbody || []
-      this.buttonsList = this.deepCopeArray(obj?.buttonsList?.btnsList) || []
+      this.buttonsList = this.deepCopeArray(obj?.buttonsList?.btnsList) || [] // 外层操作按钮
+      this.moreBtnsList = this.deepCopeArray(obj?.buttonsList?.moreBtnsList) || [] // 列表操作按钮
       this.fixedOperate = obj?.buttonsList?.fixed || this.fixedOperate
       // 计算按钮总长度
       this.buttonTotalWidth = this.buttonsList.reduce((o, v) => {
@@ -450,3 +466,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.moreBtns{
+  font-size: 20px;
+  margin-left: 10px;
+  color: #0584F9;
+}
+</style>
