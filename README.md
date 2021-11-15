@@ -57,9 +57,11 @@ Vue.use(ldtable)
       this.xBurnerTableData = { // 传给表格data的对象
         props: { // 表格属性为必传
           height: '750', // 必传
-          'row-key': 'deviceId', // 行数据的 Key，用来优化 Table 的渲染
+          'row-key': 'deviceId', // 非必传
+          currentRowKey:  result.records.length > 0 ? result.records[0].deviceId : "", // 提供给单选按钮的唯一值,默认选中行，非必传
           showIndex: true, // 序号列非必传
           size: 'mini', // 非必传
+          rowClassName: scope =>  scope.row.deviceId === 8002 ? "row-error" : "", // 处理行样式，非必传
         },
         check: { // 多选复选框非必传
           showCheckBox: true
@@ -131,11 +133,11 @@ Vue.use(ldtable)
 ### Table Attributes
 | 参数 | 说明 | 类型 | 默认值 |  
 | - | :- | :- | :-: |  
+| height | Table 的高度| string/number | '100% ' |
+| tbody | 显示的数据 | array | - |
 | ref | 获取当前插件实例 | string | - |
-| tbody | 显示的数据 | array | - | 
 | border | 是否带有纵向边框 | Boolean | false | 
 | size | Table 的尺寸| string | - |
-| height | Table 的高度| string/number | '100% ' |
 | row-key | 行数据的 Key，用来优化 Table 的渲染；在使用 reserve-selection 功能与显示树形数据时，该属性是必填的 | Function(row)/String | - |
 | currentRowKey | 当前行的 key，只写属性 | String,Number | - |
 | highlightCurrentRow | 是否要高亮当前行 | boolean | false |
@@ -151,9 +153,8 @@ Vue.use(ldtable)
 | selection-change | 当选择项发生变化时会触发该事件 | - |
 | select-all | 当用户手动勾选全选 Checkbox 时触发的事件 | - |
 | current-change | 当表格的当前行发生变化的时候会触发该事件 | - |
-| columnClick | 点击表格 | - |
-| rowDblclick | 双击自动勾选数据 | - |
 | sort-change | 当表格的排序条件发生变化的时候会触发该事件 | { column, prop, order } |
+| columnClick | 点击表格 | - |
 
 ### Table Methods
 
@@ -186,11 +187,9 @@ Vue.use(ldtable)
 | showIndex | 是否显示序号列 | Boolean | false |
 | showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | false |
 | fixed | 列是否固定在左侧或者右侧，true 表示固定在左侧 | string, boolean | - | true, left, right |
-| sortMethod | 对数据进行排序的时候使用的方法 | Function(a, b) | - | 
 | formatter | 用来格式化内容 | Function(row, cellValue, index) | - |
-| sort-by | 指定数据按照哪个属性进行排序，仅当 sortable 设置为 true 且没有设置 sort-method 的时候有效 | String | 当前列的key |
 | sortable | 对应列是否可以排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件| boolean, string | false | true, false, 'custom'|
-| sort-method | 对数据进行排序的时候使用的方法，仅当 sortable 设置为 true 的时候有效，需返回一个数字 | Function(a, b) | - |
+| sortMethod | 对数据进行排序的时候使用的方法,仅当 sortable 设置为 true 的时候有效 | Function(a, b) | - |
 
 ### buttonsList操作列 Attributes
 

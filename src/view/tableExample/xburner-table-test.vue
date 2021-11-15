@@ -6,9 +6,9 @@
     :data="xBurnerTableData"
     @columnClick="columnClick"
     @selection-change="selectionChange"
+    @sort-change="sortChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-    @sort-change="sortChange"
   ></ldtable>
   </div>
 </template>
@@ -68,7 +68,7 @@ export default {
         {
           label: '离线时长',
           key: 'offlineTime',
-          sort: true,
+          sortable: true,
           width: 100
         },
         {
@@ -82,28 +82,28 @@ export default {
           label: '健康分',
           key: 'healthScore',
           showOverflowTooltip: true,
-          sort: 'custom',
+          sortable: true,
           width: 100
         },
         {
           label: '总仓道数',
           key: 'totalChannel',
           showOverflowTooltip: true,
-          sort: 'custom',
+          sortable: 'custom',
           width: 100
         },
         {
           label: '可借宝',
           key: 'currCDBCnt',
           showOverflowTooltip: true,
-          sort: 'custom',
+          sortable: 'custom',
           width: 100
         },
         {
           label: '借出未还',
           key: 'rentNotReturnCnt',
           showOverflowTooltip: true,
-          sort: 'custom',
+          sortable: 'custom',
           width: 100
         },
         {
@@ -158,6 +158,7 @@ export default {
           currentRowKey:  result.records.length > 0 ? result.records[0].deviceId : "", // 提供给单选按钮的唯一值,默认选中行
           showIndex: true, // 序号列非必传
           size: 'mini', // 非必传
+          rowClassName: scope =>  scope.row.deviceId === 8002 ? "row-error" : "", // 处理行样式，非必传
         },
         check: { // 多选复选框非必传
           showCheckBox: true

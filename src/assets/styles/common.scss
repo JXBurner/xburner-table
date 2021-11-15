@@ -1,0 +1,18 @@
+//表格行背景颜色1
+.row-error>td,
+.el-table--striped .el-table__body tr.row-error.el-table__row--striped td {
+    background-color: #f9aeae;
+}
+//表格行背景色2
+.rowBg-error>td,
+.el-table--striped .el-table__body tr.rowBg-error.el-table__row--striped td {
+    background-color: #fdea91;
+}
+
+//表格错误行字体样式
+.row-error-style {
+    color: #f56c6c;
+  }
+.row-waring-style {
+    color: #e6a23c;
+}

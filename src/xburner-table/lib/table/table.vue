@@ -53,7 +53,7 @@
           :fixed="item.fixed"
           :key="index + '-' + item.key"
           :sort-by="item.key"
-          :sortable="item.sort"
+          :sortable="item.sortable"
           :sort-method="typeof item.sortMethod==='function'?item.sortMethod:defaultSortFn(item.sortType,item.key)"
           :show-overflow-tooltip="item.showOverflowTooltip"
           align="center"
@@ -128,12 +128,12 @@ export default {
         ref: 'baseTableRef',
         height: '100%',
         size: 'small',
+        showIndex: false, // 序号列
         border: false,
         currentRowKey: '', // 当前行的 key，只写属性
         rowClassName: '', // 设置每一行的颜色
         highlightCurrentRow: false, // 点击行是否高亮
-        headerCellStyle: { 'text-align': 'center' },
-        showIndex: false // 序号列
+        headerCellStyle: { 'text-align': 'center' }
       },
       // 表格数据
       tbody: [],
