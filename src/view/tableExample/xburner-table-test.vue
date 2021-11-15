@@ -1,6 +1,6 @@
 <template>
   <div class="xBurnerTable">
-    <ldtable
+    <ld-table
     ref="table"
     v-loading="loading"
     :data="xBurnerTableData"
@@ -9,14 +9,14 @@
     @sort-change="sortChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
-  ></ldtable>
+  ></ld-table>
   </div>
 </template>
 
 <script>
 import { mockData } from '@/view/mockData/tableData'
 
-import ldtable from '@/xburner-table/lib/index.vue'
+// import ldtable from '@/xburner-table/lib/index.vue'
 export default {
   data () {
     return {
@@ -334,7 +334,7 @@ export default {
     }
   },
   components: {
-    ldtable
+    // ldtable
   }
 
 }
