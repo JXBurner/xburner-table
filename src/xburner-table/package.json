@@ -1,6 +1,6 @@
 {
   "name": "ld-table",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "二次封装 element ui 的 el-table",
   "main": "index.js",
   "keyword": "ld-table ld-table",
