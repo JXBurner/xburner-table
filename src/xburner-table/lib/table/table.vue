@@ -34,12 +34,12 @@
         type="selection"
         width="55"
         align="center"
-        :reserve-selection="check.reserve"
+        :reserve-selection="check.reserveSelection"
       ></el-table-column>
       <!-- 单选列 -->
-      <el-table-column v-if="radio.show" width="55" align="center" label="单选">
+      <el-table-column v-if="radio.showRadio" width="55" align="center" label="单选">
         <template slot-scope="scope">
-          <el-radio v-model="radioItem" :label="scope.row[radio.valueKey]">{{''}}</el-radio>
+          <el-radio v-model="radioItem" :label="scope.row[radio.radioKey]">{{''}}</el-radio>
         </template>
       </el-table-column>
       <!-- 序号列 -->
@@ -129,7 +129,7 @@ export default {
         height: '100%',
         size: 'small',
         border: false,
-        currentRowKey: '',
+        currentRowKey: '', // 当前行的 key，只写属性
         rowClassName: '', // 设置每一行的颜色
         highlightCurrentRow: false, // 点击行是否高亮
         headerCellStyle: { 'text-align': 'center' },
@@ -149,11 +149,12 @@ export default {
       check: {
         showCheckBox: false,
         selectable: () => true, // 是否有勾选能力
-        reserve: false // 数据更新后是否保存勾选的数据
+        reserveSelection: false // 数据更新后是否保存勾选的数据
       },
       // 是否显示单选按钮
       radio: {
-        show: false
+        showRadio: false,
+        radioKey: ''
       },
       // 单选行数据
       curChangeRow: {},
@@ -177,7 +178,7 @@ export default {
      * @return {*}
      */
     initTable (obj) {
-      // 没有row-key设置默认row-key,保证数据更新之后保留之前选中的数据（需指定 row-key）
+      // 没有row-key设置默认row-key,行数据的 Key，用来优化 Table 的渲染，保证数据更新之后保留之前选中的数据（需指定 row-key）
       if (!obj.props['row-key']) {
         if (obj.tbody && obj.tbody.length > 0) {
           obj.tbody.map((v, i) => {
@@ -204,21 +205,21 @@ export default {
       if (!this.buttonTotalWidth) {
         this.buttonTotalWidth = 100
       }
-
-      if (this.radio.show && this.props['current-row'] && this.props['row-key']) {
-        // 设置选中行
-        let arr = obj.tbody.filter(v => v[this.props['row-key']] === this.props['current-row'])
-        // 要根据子组件传过来的行设置radio的选中状态，而不能直接去第一行的数据
-        this.radioItem = this.curChangeRow[this.radio.valueKey]
-        // 手动触发默认选中行current-change事件
-        this.$nextTick(() => {
-          if (this.curChangeRow.id === undefined) {
-            this.currentChange(arr[0], {})
-          }
-        })
-      } else {
-        this.radioItem = ''
-      }
+      // 单选按钮默认选中第一行
+      // if (this.radio.showRadio && this.props.currentRowKey && this.props['row-key']) {
+      //   // 设置选中行
+      //   let arr = obj.tbody.filter(v => v[this.props['row-key']] === this.props.currentRowKey)
+      //   // 要根据子组件传过来的行设置radio的选中状态
+      //   this.radioItem = this.curChangeRow[this.radio.radioKey]
+      //   // 手动触发默认选中行current-change事件
+      //   this.$nextTick(() => {
+      //     if (this.curChangeRow.id === undefined) {
+      //       this.currentChange(arr[0], {})
+      //     }
+      //   })
+      // } else {
+      //   this.radioItem = ''
+      // }
     },
     /**
      * 深度克隆数组(处理按钮和自定列的表头)
@@ -316,8 +317,8 @@ export default {
      * @return {*}
      */
     currentChange (currentRow, oldCurrentRow) {
-      if (this.radio?.show) {
-        this.radioItem = currentRow[this.radio.valueKey]
+      if (this.radio?.showRadio) {
+        this.radioItem = currentRow[this.radio.radioKey]
         this.curChangeRow = currentRow
       }
       this.$emit('current-change', { currentRow, oldCurrentRow })

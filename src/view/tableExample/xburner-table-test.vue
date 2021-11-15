@@ -8,6 +8,7 @@
     @selection-change="selectionChange"
     @handleCurrentChange="handleCurrentChange"
     @handleSizeChange="handleSizeChange"
+    @sort-change="sortChange"
   ></ldtable>
   </div>
 </template>
@@ -19,6 +20,7 @@ import ldtable from '@/xburner-table/lib/index.vue'
 export default {
   data () {
     return {
+      sort: '', // 远程排序标识
       loading: false,
       xBurnerTableData: {}, // 表格数据
       pageSizes: [20, 40, 80, 120], // 每页显示条目个数
@@ -80,31 +82,35 @@ export default {
           label: '健康分',
           key: 'healthScore',
           showOverflowTooltip: true,
-          sort: true
+          sort: 'custom',
+          width: 100
         },
         {
           label: '总仓道数',
           key: 'totalChannel',
           showOverflowTooltip: true,
-          sort: true
+          sort: 'custom',
+          width: 100
         },
         {
           label: '可借宝',
           key: 'currCDBCnt',
           showOverflowTooltip: true,
-          sort: true
+          sort: 'custom',
+          width: 100
         },
         {
           label: '借出未还',
           key: 'rentNotReturnCnt',
           showOverflowTooltip: true,
-          sort: true
+          sort: 'custom',
+          width: 100
         },
         {
           label: '日均租借',
           key: 'avgRentTimes',
           showOverflowTooltip: true,
-          sort: 'custom'
+          width: 100
         },
         {
           label: '关联工单',
@@ -145,37 +151,43 @@ export default {
      */
     initTable () {
       let result = mockData
-      this.xBurnerTableData = {
-        props: {
-          showIndex: true, // 序号列
-          size: 'mini',
-          height: '750'
+      this.xBurnerTableData = { // 传给表格data的对象
+        props: { // 表格属性为必传
+          height: '750', // 必传
+          'row-key': 'deviceId',
+          currentRowKey:  result.records.length > 0 ? result.records[0].deviceId : "", // 提供给单选按钮的唯一值,默认选中行
+          showIndex: true, // 序号列非必传
+          size: 'mini', // 非必传
         },
-        check: { // 多选复选框
-          show: true
+        check: { // 多选复选框非必传
+          showCheckBox: true
         },
-        thead: this.thead,
-        tbody: result.records || [],
-        // buttonsList: { // 操作按钮
-        //   fixed: 'right',
-        //   btnsList: [
-        //     {
-        //       label: '修改',
-        //       width: 70,
-        //       type: 'text',
-        //       size: 'small',
-        //       columnClick: 'openDetail'
-        //     },
-        //     {
-        //       width: 70,
-        //       type: 'text',
-        //       size: 'small',
-        //       columnClick: 'openDetail',
-        //       icon: 'iconfont icongengduo'
-        //     }
-        //   ]
-        // },
-        pagination: { // 分页插件
+        radio: { // 单选按钮非必传
+          showRadio: true,
+          radioKey: 'deviceId' // 单选按钮显示时必填，唯一值
+        },
+        thead: this.thead, // 表头为必传
+        tbody: result.records || [], // 表格数据为必传
+        buttonsList: { // 操作按钮非必传
+          fixed: 'right',
+          btnsList: [
+            {
+              label: '修改',
+              width: 50,
+              type: 'text',
+              size: 'small',
+              columnClick: 'openDetail'
+            },
+            {
+              width: 50,
+              type: 'text',
+              size: 'small',
+              columnClick: 'openDetail',
+              icon: 'iconfont icongengduo'
+            }
+          ]
+        },
+        pagination: { // 分页插件非必传
           show: true,
           currentPage: result.current,
           pageSize: result.size,
@@ -261,6 +273,40 @@ export default {
       if (row?.devopsTask?.length === 1) {
         return row?.devopsTask[0].taskType
       }
+    },
+    /**
+     * 远程排序
+     * @author: jinx
+     * @Date: 2021-11-15 10:40:39
+     * @param {*}
+     * @return {*}
+     */
+    sortChange (column) {
+      let prop = column.column
+      let valueName = prop.sortBy
+        switch (prop.sortBy) {
+          case 'offlineTime':
+            valueName = 'offLineMinute'
+            break
+          case 'totalChannel':
+            valueName = 'maxCDBCnt'
+            break
+          case 'currCDBCnt':
+            valueName = 'currCdb'
+            break
+          case 'rentNotReturnCnt':
+            valueName = 'rentNotReturnCdb'
+            break
+          case 'takeOfferCnt':
+            valueName = 'takeOfferCnt'
+            break
+        }
+        let soreType = prop.order && prop.order.split('ending')
+        if (soreType !== null) {
+          this.sort = [valueName, soreType[0]].join(',')
+          this.initTable()
+        }
+        this.$message.success(this.sort)
     }
   },
   components: {

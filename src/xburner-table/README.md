@@ -1,6 +1,19 @@
 # el-table
 二次封装 element ui 的 el-table
 
+### 准备工作
+```
+1、下载依赖支持可选链式操作符：
+@babel/plugin-proposal-optional-chaining
+
+2、babel.config.js配置如下:
+plugins: [
+    '@babel/plugin-proposal-optional-chaining'
+]
+
+3、babel7以上才支持
+
+```
 ### 插件的安装
 #### NPM 
 ```
@@ -13,18 +26,9 @@ import ldtable from 'ld-table'
 
 Vue.use(ldtable)
 ```
-#### 准备工作
-```
-1、下载依赖支持可选链式操作符：
-@babel/plugin-proposal-optional-chaining
-
-2、babel.config.js配置如下:
-plugins: [
-    '@babel/plugin-proposal-optional-chaining'
-]
-```
 #### 基本用法
 1、基本表格数据展示.初始化表格:initTable();  props为表格属性、thead为表头、tbody为表格数据、buttonsList为操作列、pagination为分页插件;
+
 2、表格data对象里面的props、thead、tbody必填，其他参数可选
 
 引入插件
@@ -50,28 +54,33 @@ Vue.use(ldtable)
 ```javaScript
     initTable () {
       let result = mockData
-      this.xBurnerTableData = {
-        props: { // 表格属性
-          size: 'mini',
-          height: '750'
+      this.xBurnerTableData = { // 传给表格data的对象
+        props: { // 表格属性为必传
+          showIndex: true, // 序号列非必传
+          size: 'mini', // 非必传
+          height: '750' // 必传
         },
-        check: { // 多选复选框
-          show: true
+        check: { // 多选复选框非必传
+          showCheckBox: true
         },
-        thead: this.thead,
-        tbody: result.records || [],
-        buttonsList: { // 操作按钮
+        radio: { // 单选按钮非必传
+          showRadio: true,
+          radioKey: 'terminal' // 单选为一值
+        },
+        thead: this.thead, // 表头为必传
+        tbody: result.records || [], // 表格数据为必传
+        buttonsList: { // 操作按钮非必传
           fixed: 'right',
           btnsList: [
             {
               label: '修改',
-              width: 70,
+              width: 50,
               type: 'text',
               size: 'small',
               columnClick: 'openDetail'
             },
             {
-              width: 70,
+              width: 50,
               type: 'text',
               size: 'small',
               columnClick: 'openDetail',
@@ -79,7 +88,7 @@ Vue.use(ldtable)
             }
           ]
         },
-        pagination: { // 分页插件
+        pagination: { // 分页插件非必传
           show: true,
           currentPage: result.current,
           pageSize: result.size,
@@ -153,16 +162,28 @@ Vue.use(ldtable)
 | :- | :- | :- |
 | tableMethods | 通过该方法可调用elementui的所有方法 | fnName（方法名） |
 
-### Table-column Attributes
+### Table-column多选列（check） Attributes
+
+| 参数 | 说明 | 类型 | 默认值 | 可选值 |
+| - | :- | :- | :-: | :-: |
+| showCheckBox | 是否显示多选列 | Boolean | false |
+| selectable | 是否有勾选能力 | Function(row, index) | - |
+| reserve | 数据更新后是否保存勾选的数据| Boolean | false |
+
+### Table-column单选列（radio） Attributes
+
+| 参数 | 说明 | 类型 | 默认值 | 可选值 |
+| - | :- | :- | :-: | :-: |
+| showRadio | 是否显示单选列 | Boolean | false |
+| radioKey | 单选按钮显示时必填，唯一值 | string  | - |
+
+### Table-column数据列 Attributes
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 | - | :- | :- | :-: | :-: | 
 | thead | 表头 | array | - | 
 | showIndex | 是否显示序号列 | Boolean | false |
 | showOverflowTooltip | 当内容过长被隐藏时显示 tooltip | Boolean | false |
-| showCheckBox | 是否显示多选列 | Boolean | false |
-| selectable | 是否有勾选能力 | Function(row, index) | - |
-| reserve | 数据更新后是否保存勾选的数据| Boolean | false |
 | fixed | 列是否固定在左侧或者右侧，true 表示固定在左侧 | string, boolean | - | true, left, right |
 | sortMethod | 对数据进行排序的时候使用的方法 | Function(a, b) | - | 
 | formatter | 用来格式化内容 | Function(row, cellValue, index) | - |
