@@ -29,7 +29,7 @@ Vue.use(ldtable)
 #### 基本用法
 1、基本表格数据展示.初始化表格:initTable();  props为表格属性、thead为表头、tbody为表格数据、buttonsList为操作列、pagination为分页插件;
 
-2、表格data对象里面的props、thead、tbody必填，其他参数可选
+2、表格data对象里面的thead、tbody必填，其他参数可选
 
 引入插件
 ```
@@ -55,9 +55,11 @@ Vue.use(ldtable)
     initTable () {
       let result = mockData
       this.xBurnerTableData = { // 传给表格data的对象
-        props: { // 表格属性为必传
-          height: '750', // 必传
-          'row-key': 'deviceId', // 非必传
+        thead: this.thead, // 表头为必传
+        tbody: result.records || [], // 表格数据为必传
+        props: { // 表格属性为非必传
+          height: '750', // 非必传
+          'row-key': 'deviceId', // 在使用 reserve-selection 功能与显示树形数据时，该属性是必填的
           showIndex: true, // 序号列非必传
           size: 'mini', // 非必传
           border: true, // 非必传
@@ -71,8 +73,6 @@ Vue.use(ldtable)
           showRadio: true,
           radioKey: 'deviceId' // 单选按钮显示时必填，唯一值
         },
-        thead: this.thead, // 表头为必传
-        tbody: result.records || [], // 表格数据为必传
         buttonsList: { // 操作按钮非必传
           fixed: 'right',
           btnsList: [ // 外层操作列表非必传

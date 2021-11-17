@@ -154,7 +154,7 @@ export default {
       this.xBurnerTableData = { // 传给表格data的对象
         props: { // 表格属性为必传
           height: '750', // 必传
-          'row-key': 'deviceId', // 非必传
+          'row-key': 'deviceId', // 在使用 reserve-selection 功能与显示树形数据时，该属性是必填的
           showIndex: true, // 序号列非必传
           size: 'mini', // 非必传
           border: true, // 非必传
