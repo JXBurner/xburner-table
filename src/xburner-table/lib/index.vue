@@ -158,6 +158,9 @@ export default {
 }
 </script>
 <style scoped>
+.base-table{
+  height: 100%;
+}
 .table-footer{
   float: right;
   margin-top: 10px;

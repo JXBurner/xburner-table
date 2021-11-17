@@ -8,7 +8,7 @@
   <div class="mainLdTable">
     <!-- 表格主体 -->
     <el-table
-      class="app-tableList"
+      class="ldTable"
       v-loading="loading"
       :data="tbody"
       :ref="props.ref"
@@ -17,7 +17,6 @@
       :size="props.size"
       :height="props.height"
       :lazy="props.lazy"
-      max-height="100%"
       :current-row-key="props.currentRowKey"
       :row-class-name="props.rowClassName"
       :highlight-current-row="props.highlightCurrentRow"
@@ -28,6 +27,7 @@
       @current-change="currentChange"
       @row-dblclick="rowDblclick"
       @sort-change="sortChange"
+      max-height="100%"
     >
       <!-- 多选列 -->
       <el-table-column
@@ -143,7 +143,7 @@ export default {
       props: {
         ref: 'baseTableRef',
         height: '100%',
-        size: 'small',
+        size: '',
         showIndex: false, // 序号列
         border: false,
         lazy: false,
@@ -198,11 +198,12 @@ export default {
      */
     initTable (obj) {
       // 没有row-key设置默认row-key,行数据的 Key，用来优化 Table 的渲染，保证数据更新之后保留之前选中的数据（需指定 row-key）
-      if (!obj.props['row-key']) {
+      if (!obj.props || !obj.props['row-key']) {
         if (obj.tbody && obj.tbody.length > 0) {
           obj.tbody.map((v, i) => {
-            v['row-key'] = this.setDefaultRowKey(i, obj.pagination?.page?.pageNo || 1)
+            v['row-key'] = this.setDefaultRowKey(i, obj?.pagination?.page?.pageNo || 1)
           })
+          !obj.props && (obj.props = {})
           obj.props['row-key'] = 'row-key'
         }
       }
@@ -471,6 +472,9 @@ export default {
 }
 </script>
 <style scoped>
+.mainLdTable{
+  height: 100%;
+}
 .moreBtns{
   font-size: 20px;
   margin-left: 10px;
