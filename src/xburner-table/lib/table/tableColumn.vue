@@ -17,7 +17,7 @@
         :show-overflow-tooltip="item.showOverflowTooltip"
         align="center"
       >
-        <template slot-scope="scope">
+        <template #default="scope">
           <span
             v-if="item.formatter"
             @click="columnClick(scope.row,item,$event)"

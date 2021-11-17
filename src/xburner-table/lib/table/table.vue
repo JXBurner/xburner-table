@@ -40,7 +40,7 @@
       ></el-table-column>
       <!-- 单选列 -->
       <el-table-column v-if="radio.showRadio" width="55" align="center" label="单选">
-        <template slot-scope="scope">
+        <template #default="scope">
           <el-radio v-model="radioItem" :label="scope.row[radio.radioKey]">{{''}}</el-radio>
         </template>
       </el-table-column>
@@ -60,7 +60,7 @@
           :show-overflow-tooltip="item.showOverflowTooltip"
           align="center"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <span
               v-if="item.formatter"
               @click="columnClick(scope.row,item,$event)"
@@ -91,7 +91,7 @@
         :fixed="fixedOperate"
         :width="buttonTotalWidth"
       >
-        <template slot-scope="{row}">
+        <template #default="{row}">
           <el-button
             v-for="(item, index) in buttonsList"
             :key="'options-'+ index"
