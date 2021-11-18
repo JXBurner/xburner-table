@@ -207,25 +207,24 @@ export default {
           obj.props['row-key'] = 'row-key'
         }
       }
+      this.thead = obj.thead || []
+      this.tbody = obj.tbody || []
+
       this.props = Object.assign({}, this.props, obj.props)
       this.check = Object.assign({}, this.check, obj.check)
       this.radio = Object.assign({}, this.radio, obj.radio)
-      this.thead = obj.thead || []
-      this.tbody = obj.tbody || []
+
       this.buttonsList = this.deepCopeArray(obj?.buttonsList?.btnsList) || [] // 外层操作按钮
       this.moreBtnsList = this.deepCopeArray(obj?.buttonsList?.moreBtnsList) || [] // 列表操作按钮
-      this.fixedOperate = obj?.buttonsList?.fixed || this.fixedOperate
+      this.fixedOperate = obj?.buttonsList?.fixed || this.fixedOperate // 操作列固定
       // 计算按钮总长度
       this.buttonTotalWidth = this.buttonsList.reduce((o, v) => {
-        if (isNaN(v.width)) {
-          v.width = 0
-        }
+        isNaN(v.width) && (v.width = 0)
         return o + Number(v.width)
       }, 0)
       // 默认按钮总长度为100
-      if (!this.buttonTotalWidth) {
-        this.buttonTotalWidth = 100
-      }
+      !this.buttonTotalWidth && (this.buttonTotalWidth = 100)
+
       // 单选按钮默认选中第一行
       // if (this.radio.showRadio && this.props.currentRowKey && this.props['row-key']) {
       //   // 设置选中行
